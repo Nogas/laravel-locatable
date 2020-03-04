@@ -28,11 +28,7 @@ $ composer require raggitech/laravel-locatable
 - [TimeZone](#TZ)
 - [Continents](#Continents)
 - [Countries](#Countries)
-- [Retrieve Value](#get)
-- [Delete & Clear](#dc)
-- [Relationship](#relationship)
-- [Scopes](#scopes)
-- [Creator](#u)
+- [States](#States)
 
 
 
@@ -115,9 +111,9 @@ $country =  getCountry('EG', 'ar'); // Same result with "name" => "مصر"
 
 
 
-<a name="cu"></a>
+<a name="States"></a>
 
-#### Create / Update Currency's Value
+#### States
 ###### function getStates(?string $country = null)
 ###### function getState(string $code, ?string $country = null)
 ```php
