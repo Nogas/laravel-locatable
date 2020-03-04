@@ -1,21 +1,8 @@
-# [RaggiTech] Laravel >= 6.0 - Currency.
+# [RaggiTech] Laravel-Locatable.
 
-#  [![Latest Stable Version](https://poser.pugx.org/raggitech/laravel-currency/v/stable)](https://packagist.org/packages/raggitech/laravel-currency) [![Total Downloads](https://poser.pugx.org/raggitech/laravel-currency/downloads)](https://packagist.org/packages/raggitech/laravel-currency) [![License](https://poser.pugx.org/raggitech/laravel-currency/license)](https://packagist.org/packages/raggitech/laravel-currency)
+#  [![Latest Stable Version](https://poser.pugx.org/raggitech/laravel-locatable/v/stable)](https://packagist.org/packages/raggitech/laravel-locatable) [![Total Downloads](https://poser.pugx.org/raggitech/laravel-locatable/downloads)](https://packagist.org/packages/raggitech/laravel-locatable) [![License](https://poser.pugx.org/raggitech/laravel-locatable/license)](https://packagist.org/packages/raggitech/laravel-locatable)
 
-#### Laravel Currency provides a quick and easy methods with 150+ Currency.
-
-###### Example:
-
-```php
-// Create/Update Currency
-$product->setCurrency(15.59, 'USD');
-
-// Retrieve Currency's Value
-echo $product->currency('USD'); 			// 15.59
-echo $product->currencyWithSymbol('USD'); 	// $15.59
-echo $product->currencyWithCode('USD'); 	// 15.59 USD
-```
-
+#### Locatable provides a quick and easy methods.
 
 
 ## Install
@@ -23,22 +10,24 @@ echo $product->currencyWithCode('USD'); 	// 15.59 USD
 Install the latest version using [Composer](https://getcomposer.org/):
 
 ```bash
-$ composer require raggitech/laravel-currency
+$ composer require raggitech/laravel-locatable
 ```
 
-then publish the migration & config files
-```bash
-$ php artisan vendor:publish --tag=laravel-currency
-$ php artisan migrate
-```
+
+
+## Supported Languages
+
+- Arabic
+- English
+
 
 
 
 ## Usage
 
-- [Configurations](#config)
-- [Currencies List](#list)
-- [Create/Update](#cu)
+- [TimeZone](#TZ)
+- [Continents](#Continents)
+- [Countries](#Countries)
 - [Retrieve Value](#get)
 - [Delete & Clear](#dc)
 - [Relationship](#relationship)
@@ -47,32 +36,80 @@ $ php artisan migrate
 
 
 
-<a name="config"></a>
+<a name="TZ"></a>
 
-#### Configurations
-Default Currency & Only List
+#### TimeZone
+###### function getTimeZones(?string $lang = null)
+
 ```php
-use RaggiTech\Laravel\Currency\Currency;
+$timezones = getTimeZones();
 
-Currency::setDefault('USD'); // Setting USD as a default currency.
-Currency::setOnly(['USD', 'EGP']); // Allow using only USD, EGP.
+/**
+*	...
+*	+"Europe/Athens": "(UTC+02:00) Athens"
+*	+"Europe/Bucharest": "(UTC+02:00) Bucharest"
+*	+"Africa/Cairo": "(UTC+02:00) Cairo"
+*	+"Africa/Harare": "(UTC+02:00) Harare"
+*	+"Europe/Helsinki": "(UTC+02:00) Kyiv"
+*	+"Europe/Istanbul": "(UTC+02:00) Istanbul"
+*	+"Asia/Jerusalem": "(UTC+02:00) Jerusalem"
+*	...
+*/
 ```
 
 
 
 
-<a name="list"></a>
 
-#### Currencies List
+<a name="Continents"></a>
+
+#### Continents
+###### function getContinents(?string $lang = null)
+###### function getContinent(string $code, ?string $lang = null)
+
 ```php
-$list = currenciesList();
+$continents = getContinents();
 /**
-*	"USD" => "US Dollar"
-* 	"CAD" => "Canadian Dollar"
-* 	"EUR" => "Euro"
-* 	"AED" => "United Arab Emirates Dirham"
-* 	...
+*	+"AF": "Africa"
+*	+"AN": "Antarctica"
+*	+"AS": "Asia"
+*	...
 */
+
+echo getContinent('AF', 'ar'); // أفريقيا
+```
+
+
+
+
+
+<a name="Countries"></a>
+
+#### Countries
+###### function function getCountries(?string $lang = null)
+###### function getCountry(string $code, ?string $lang = null)
+
+```php
+$countries = getCountries();
+/**
+*	...
+*	    +"EG": array:9 [▼
+*	    	"iso" => "EGY"
+*	    	"name" => "Egypt"
+*	    	"native" => "مصر‎"
+*	    	"currency" => "EGP"
+*	    	"phone" => "20"
+*	    	"timezone" => "Africa/Cairo"
+*	    	"languages" => array:1 [▼
+*	    		0 => "AR"
+*	    	]
+*	    	"continent" => "AF"
+*	    	"capital" => "Cairo"
+*	    ]
+*	...
+*/
+
+$country =  getCountry('EG', 'ar'); // Same result with "name" => "مصر"
 ```
 
 
@@ -81,71 +118,18 @@ $list = currenciesList();
 <a name="cu"></a>
 
 #### Create / Update Currency's Value
+###### function getStates(?string $country = null)
+###### function getState(string $code, ?string $country = null)
 ```php
-$product->setCurrency(15.59, 'USD');
-```
+$states = getStates('EG');
+/**
+*	+"ALX": "Alexandria Governorate"
+*	+"ASN": "Aswan Governorate"
+*	+"AST": "Asyut Governorate"
+*	.....
+*/
 
-
-
-
-<a name="get"></a>
-
-#### Retrieve Currency's Value
-```php
-// 15.59 if USD is the default currency
-// NULL if there's no value for the default currency.
-echo $product->currency();
-
-echo $product->currency('USD'); 			// 15.59		|| NULL
-echo $product->currencyWithSymbol('USD'); 	// $15.59		|| NULL
-echo $product->currencyWithCode('USD'); 	// 15.59 USD	|| NULL
-```
-
-
-
-<a name="dc"></a>
-
-#### Delete a single currency || Clear all model's currencies
-```php
-$product->deleteCurrency('EGP'); 	// Delete EGP Currency
-$product->clearCurrencies();		// Clear all currencies
-```
-
-
-
-
-<a name="relationship"></a>
-
-#### Relationship 
-```php
-$product->currencies; 	// All currencies list of a single model
-```
-
-
-
-
-<a name="scopes"></a>
-
-#### Scopes 
-```php
-// Get every element has no currency.
-$p1 = Product::withoutCurrencies()->get();
-
-// Get every element has EGP currency.
-$p2 = Product::withCurrency('EGP')->get();
-
-// Get every element has [EGP or USD or all] currency.
-$p3 = Product::withAnyCurrency(['EGP', 'USD'])->get();
-```
-
-
-
-<a name="u"></a>
-
-#### Creator
-```php
-// Get User Model
-$product->currency()->user;
+echo getStates('ALX', 'EG'); // Alexandria Governorate
 ```
 
 
