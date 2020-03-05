@@ -82,10 +82,21 @@ echo getContinent('AF', 'ar'); // أفريقيا
 <a name="Countries"></a>
 
 #### Countries
+###### function getCountriesNames(?string $lang = null)
 ###### function function getCountries(?string $lang = null)
 ###### function getCountry(string $code, ?string $lang = null)
 
 ```php
+$countriesNames = getCountriesNames();
+/**
+*	+"AF": "Afghanistan"
+*	+"AX": "Aland Islands"
+*	+"AL": "Albania"
+*	+"DZ": "Algeria"
+*	+"AS": "American Samoa"
+*	...
+*/
+
 $countries = getCountries();
 /**
 *	...

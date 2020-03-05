@@ -69,6 +69,19 @@ function getCountries(?string $lang = null)
 }
 
 /**
+ * Get Countries Names List
+ */
+function getCountriesNames(?string $lang = null)
+{
+    $lang = strtolower($lang ?? substr(app()->getLocale(), 0, 2));
+    if (!is_dir(__DIR__ . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $lang)) $lang = 'en';
+
+    $countries = require __DIR__ . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $lang . DIRECTORY_SEPARATOR . 'country.php';
+
+    return (object)$countries;
+}
+
+/**
  * Get Country List
  */
 function getCountry(string $code, ?string $lang = null)
